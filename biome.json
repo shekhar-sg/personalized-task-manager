@@ -11,7 +11,8 @@
       "recommended": true,
       "complexity": {
         "noBannedTypes": "error",
-        "noUselessTypeConstraint": "error"
+        "noUselessTypeConstraint": "error",
+        "noStaticOnlyClass": "off"
       },
       "correctness": {
         "noUnusedVariables": "warn",

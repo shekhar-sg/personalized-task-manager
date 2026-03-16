@@ -1,19 +1,21 @@
 import type { NextFunction, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 import { verifyAccessToken } from "../lib/jwt.js";
-import type { AuthRequest } from "../types/index.js";
+import { ApiResponse } from "../lib/response";
+import type { AuthRequest } from "../types";
 
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction): void => {
   try {
+    const tokenFromCookie = req.cookies?.accessToken;
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      res.status(401).json({
-        success: false,
-        message: "Access denied. No token provided.",
-      });
+    const tokenFromHeader = authHeader?.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+    const token = tokenFromCookie || tokenFromHeader;
+
+    if (!token) {
+      ApiResponse.error(res, "Access denied. No token provided.", StatusCodes.UNAUTHORIZED);
       return;
     }
 
-    const token = authHeader.split(" ")[1];
     const payload = verifyAccessToken(token);
 
     req.user = {
@@ -24,22 +26,15 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
   } catch (error) {
     if (error instanceof Error) {
       if (error.name === "TokenExpiredError") {
-        res.status(401).json({
-          success: false,
-          message: "Access token expired.",
-        });
+        ApiResponse.error(res, "Token expired. Please log in again.", StatusCodes.UNAUTHORIZED);
+        return;
       }
       if (error.name === "JsonWebTokenError") {
-        res.status(401).json({
-          success: false,
-          message: "Invalid access token.",
-        });
+        ApiResponse.error(res, "Invalid token", StatusCodes.UNAUTHORIZED);
+        return;
       }
     }
 
-    res.status(401).json({
-      success: false,
-      message: "Authentication failed.",
-    });
+    ApiResponse.error(res, "Authentication failed", StatusCodes.UNAUTHORIZED);
   }
 };
