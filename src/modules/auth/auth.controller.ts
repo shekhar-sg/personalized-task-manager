@@ -13,11 +13,7 @@ export class AuthController {
     try {
       const result = registerSchema.safeParse(req.body);
       if (!result.success) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          success: false,
-          message: "Validation failed",
-          errors: z.flattenError(result.error).fieldErrors,
-        });
+        return ApiResponse.validationError(res, z.flattenError(result.error).fieldErrors);
       }
       const data = await authService.register(result.data);
 
@@ -38,11 +34,7 @@ export class AuthController {
       const result = loginSchema.safeParse(req.body);
 
       if (!result.success) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          success: false,
-          message: "Validation failed",
-          errors: z.flattenError(result.error).fieldErrors,
-        });
+        return ApiResponse.validationError(res, z.flattenError(result.error).fieldErrors);
       }
 
       const data = await authService.login(result.data);

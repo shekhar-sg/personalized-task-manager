@@ -1,14 +1,10 @@
 import jwt from "jsonwebtoken";
+import type { TokenPayload } from "../types";
 
 const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET!;
 const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 const ACCESS_EXPIRES = process.env.ACCESS_TOKEN_EXPIRES_IN || "15m";
 const REFRESH_EXPIRES = process.env.REFRESH_TOKEN_EXPIRES_IN || "7d";
-
-export interface TokenPayload {
-  userId: string;
-  email: string;
-}
 
 export const generateAccessToken = (payload: TokenPayload): string => {
   return jwt.sign(payload, ACCESS_SECRET, {

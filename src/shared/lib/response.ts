@@ -26,6 +26,14 @@ export class ApiResponse {
     });
   }
 
+  static validationError(res: Response, errors: Record<string, string[] | undefined>) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: "Validation failed",
+      errors,
+    });
+  }
+
   static paginated(
     res: Response,
     message: string,
