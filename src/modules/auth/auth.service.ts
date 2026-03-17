@@ -3,7 +3,7 @@ import {ConflictError, NotFoundError, UnauthorizedError} from "../../shared/lib/
 import {generateAccessToken, generateRefreshToken, verifyRefreshToken,} from "../../shared/lib/jwt";
 import {prisma} from "../../shared/lib/prisma";
 import type {UserPayload} from "../../shared/types";
-import type {LoginDto, RegisterDto} from "./auth.dto";
+import type {ChangePasswordDto, LoginDto, RegisterDto, UpdateProfileDto} from "./auth.dto";
 import {AuthRepository} from "./auth.repository";
 
 const authRepository = new AuthRepository();
@@ -171,5 +171,35 @@ export class AuthService {
       throw new NotFoundError("User not found");
     }
     return formatUser(user);
+  }
+
+  async updateProfile(userId: string, input: UpdateProfileDto) {
+    if (input.email) {
+      const existingUser = await authRepository.findUserByEmail(input.email);
+      if (existingUser && existingUser.id !== userId) {
+        throw new ConflictError("Email already in use");
+      }
+    }
+
+    const user = await authRepository.updateUser(userId, {
+      ...(input.name && { name: input.name }),
+      ...(input.email && { email: input.email }),
+    });
+
+    return formatUser(user);
+  }
+
+  async changePassword(userId: string, input: ChangePasswordDto) {
+    const user = await authRepository.findUserById(userId);
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    const isPasswordValid = await bcrypt.compare(input.currentPassword, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedError("Current password is incorrect");
+    }
+    const hashedPassword = await bcrypt.hash(input.newPassword, 12);
+    await authRepository.updateUser(userId, { password: hashedPassword });
   }
 }

@@ -3,7 +3,7 @@ import {StatusCodes} from "http-status-codes";
 import z from "zod";
 import {ApiResponse} from "../../shared/lib/response";
 import type {AuthRequest} from "../../shared/types";
-import {loginSchema, registerSchema} from "./auth.dto";
+import {changePasswordSchema, loginSchema, registerSchema, updateProfileSchema} from "./auth.dto";
 import {AuthService} from "./auth.service";
 
 const authService = new AuthService();
@@ -114,6 +114,34 @@ export class AuthController {
       return ApiResponse.success(res, "Profile retrieved successfully", {
         user,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateProfile(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const result = updateProfileSchema.safeParse(req.body);
+      if (!result.success) {
+        return ApiResponse.validationError(res, z.flattenError(result.error).fieldErrors);
+      }
+      const user = await authService.updateProfile(req.user!.userId, result.data);
+      return ApiResponse.success(res, "Profile updated successfully", {
+        user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async changePassword(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const result = changePasswordSchema.safeParse(req.body);
+      if (!result.success) {
+        return ApiResponse.validationError(res, z.flattenError(result.error).fieldErrors);
+      }
+      await authService.changePassword(req.user!.userId, result.data);
+      return ApiResponse.success(res, "Password changed successfully");
     } catch (error) {
       next(error);
     }
