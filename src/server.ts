@@ -6,7 +6,7 @@ import helmet from "helmet";
 import {StatusCodes} from "http-status-codes";
 import authRoutes from "./modules/auth/auth.routes";
 import taskRoutes from "./modules/tasks/task.routes";
-import {AppError} from "./shared/lib/appError";
+import type {AppError} from "./shared/lib/appError";
 import {ApiResponse} from "./shared/lib/response";
 
 const app = express();
@@ -37,13 +37,11 @@ app.use((_req, res) => {
   return ApiResponse.error(res, "Route Not Found", StatusCodes.NOT_FOUND);
 });
 
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  if (err instanceof AppError) {
+app.use(
+  (err: AppError, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     return ApiResponse.error(res, err.message, err.statusCode);
   }
-  console.error(err.stack);
-  return ApiResponse.error(res, "Something went wrong", StatusCodes.INTERNAL_SERVER_ERROR);
-});
+);
 
 if (process.env.NODE_ENV !== "production") {
   app.listen(port, () => {
