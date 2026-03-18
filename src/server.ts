@@ -1,20 +1,20 @@
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, {urlencoded} from "express";
+import express, { urlencoded } from "express";
 import helmet from "helmet";
-import {StatusCodes} from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 import authRoutes from "./modules/auth/auth.routes.js";
 import taskRoutes from "./modules/tasks/task.routes.js";
-import type {AppError} from "./shared/lib/appError.js";
-import {ApiResponse} from "./shared/lib/response.js";
+import type { AppError } from "./shared/lib/appError.js";
+import { ApiResponse } from "./shared/lib/response.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: [process.env.FRONTEND_URL!, "http://localhost:3000"],
     credentials: true,
   })
 );

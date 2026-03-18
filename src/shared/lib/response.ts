@@ -71,8 +71,8 @@ export class ApiResponse {
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: new Date(Date.now() + 15 * 60 * 1000).getTime(), // 15 minutes
+      sameSite: "none",
+      maxAge: 15 * 60 * 1000,
     });
   }
 
@@ -80,7 +80,7 @@ export class ApiResponse {
     res.clearCookie("accessToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
     });
   }
 
@@ -88,8 +88,8 @@ export class ApiResponse {
     res.cookie("refreshToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      sameSite: "none",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
   }
 
@@ -97,7 +97,7 @@ export class ApiResponse {
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
     });
   }
 }
