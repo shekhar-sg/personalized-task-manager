@@ -11,6 +11,7 @@
     "prebuild": "npm run prisma:generate",
     "build": "tsc",
     "start": "node dist/server.js",
+    "postinstall": "prisma generate",
     "format": "biome format --write .",
     "lint": "biome lint .",
     "check": "biome check --write .",
