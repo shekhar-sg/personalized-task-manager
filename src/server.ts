@@ -45,9 +45,11 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
   return ApiResponse.error(res, "Something went wrong", StatusCodes.INTERNAL_SERVER_ERROR);
 });
 
-app.listen(port, () => {
-  console.log(`Health check server is running on http://localhost:${port}/health`);
-  console.log(`Server is running on http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`Health check server is running on http://localhost:${port}/health`);
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}
 
 export default app;
