@@ -49,3 +49,5 @@ app.listen(port, () => {
   console.log(`Health check server is running on http://localhost:${port}/health`);
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+export default app;
