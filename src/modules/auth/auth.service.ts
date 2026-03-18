@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
-import {ConflictError, NotFoundError, UnauthorizedError} from "../../shared/lib/appError";
-import {generateAccessToken, generateRefreshToken, verifyRefreshToken,} from "../../shared/lib/jwt";
-import {prisma} from "../../shared/lib/prisma";
-import type {UserPayload} from "../../shared/types";
-import type {ChangePasswordDto, LoginDto, RegisterDto, UpdateProfileDto} from "./auth.dto";
-import {AuthRepository} from "./auth.repository";
+import {ConflictError, NotFoundError, UnauthorizedError} from "../../shared/lib/appError.js";
+import {generateAccessToken, generateRefreshToken, verifyRefreshToken,} from "../../shared/lib/jwt.js";
+import {prisma} from "../../shared/lib/prisma.js";
+import type {UserPayload} from "../../shared/types/index.js";
+import type {ChangePasswordDto, LoginDto, RegisterDto, UpdateProfileDto} from "./auth.dto.js";
+import {AuthRepository} from "./auth.repository.js";
 
 const authRepository = new AuthRepository();
 

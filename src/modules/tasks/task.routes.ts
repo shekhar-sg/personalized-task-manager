@@ -1,6 +1,6 @@
 import {Router} from "express";
-import {authenticate} from "../../shared/middleware/auth.middleware";
-import {TaskController} from "./task.controller";
+import {authenticate} from "../../shared/middleware/auth.middleware.js";
+import {TaskController} from "./task.controller.js";
 
 const router = Router();
 const taskController = new TaskController();

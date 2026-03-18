@@ -1,8 +1,8 @@
 import type { NextFunction, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { verifyAccessToken } from "../lib/jwt.js";
-import { ApiResponse } from "../lib/response";
-import type { AuthRequest } from "../types";
+import { ApiResponse } from "../lib/response.js";
+import type { AuthRequest } from "../types/index.js";
 
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction): void => {
   try {

@@ -1,5 +1,5 @@
-import type {Prisma, Task} from "../../../generated/prisma";
-import {prisma} from "../../shared/lib/prisma";
+import type {Prisma, Task} from "../../../generated/prisma/client.js";
+import {prisma} from "../../shared/lib/prisma.js";
 
 export class TaskRepository {
   async findMany(

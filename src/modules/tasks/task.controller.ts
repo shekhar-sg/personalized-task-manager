@@ -1,10 +1,10 @@
 import type { NextFunction, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
-import { ApiResponse } from "../../shared/lib/response";
-import type { AuthRequest } from "../../shared/types";
-import { createTaskSchema, taskQuerySchema, updateTaskSchema } from "./task.dto";
-import { TaskService } from "./task.service";
+import { ApiResponse } from "../../shared/lib/response.js";
+import type { AuthRequest } from "../../shared/types/index.js";
+import { createTaskSchema, taskQuerySchema, updateTaskSchema } from "./task.dto.js";
+import { TaskService } from "./task.service.js";
 
 const taskService = new TaskService();
 

@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {Priority, Status} from "../../../generated/prisma";
+import {Priority, Status} from "../../../generated/prisma/client.js";
 
 export const createTaskSchema = z.object({
   title: z

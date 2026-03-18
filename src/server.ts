@@ -4,10 +4,10 @@ import cors from "cors";
 import express, {urlencoded} from "express";
 import helmet from "helmet";
 import {StatusCodes} from "http-status-codes";
-import authRoutes from "./modules/auth/auth.routes";
-import taskRoutes from "./modules/tasks/task.routes";
-import type {AppError} from "./shared/lib/appError";
-import {ApiResponse} from "./shared/lib/response";
+import authRoutes from "./modules/auth/auth.routes.js";
+import taskRoutes from "./modules/tasks/task.routes.js";
+import type {AppError} from "./shared/lib/appError.js";
+import {ApiResponse} from "./shared/lib/response.js";
 
 const app = express();
 const port = process.env.PORT || 8080;

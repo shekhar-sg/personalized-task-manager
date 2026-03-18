@@ -1,5 +1,5 @@
-import type {User} from "../../../generated/prisma/client";
-import {prisma} from "../../shared/lib/prisma";
+import type {User} from "../../../generated/prisma/client.js";
+import {prisma} from "../../shared/lib/prisma.js";
 
 export class AuthRepository implements AuthRepository {
   async createUser(data: { name: string; email: string; password: string }): Promise<User> {

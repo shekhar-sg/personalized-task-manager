@@ -1,10 +1,11 @@
 import type {NextFunction, Request, Response} from "express";
 import {StatusCodes} from "http-status-codes";
 import z from "zod";
-import {ApiResponse} from "../../shared/lib/response";
-import type {AuthRequest} from "../../shared/types";
-import {changePasswordSchema, loginSchema, registerSchema, updateProfileSchema} from "./auth.dto";
-import {AuthService} from "./auth.service";
+import {ApiResponse} from "../../shared/lib/response.js";
+// import type {AuthRequest} from "../../shared/types.js";
+import {changePasswordSchema, loginSchema, registerSchema, updateProfileSchema} from "./auth.dto.js";
+import {AuthService} from "./auth.service.js";
+import type {AuthRequest} from "../../shared/types/index.js";
 
 const authService = new AuthService();
 

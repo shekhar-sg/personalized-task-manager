@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import type { TokenPayload } from "../types";
+import type { TokenPayload } from "../types/index.js";
 
 const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET!;
 const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET!;

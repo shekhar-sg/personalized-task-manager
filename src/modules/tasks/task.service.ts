@@ -1,7 +1,7 @@
-import { type Prisma, Status } from "../../../generated/prisma";
-import { NotFoundError } from "../../shared/lib/appError";
-import type { CreateTaskDto, TaskQueryDto, UpdateTaskDto } from "./task.dto";
-import { TaskRepository } from "./task.repository";
+import { type Prisma, Status } from "../../../generated/prisma/client.js";
+import { NotFoundError } from "../../shared/lib/appError.js";
+import type { CreateTaskDto, TaskQueryDto, UpdateTaskDto } from "./task.dto.js";
+import { TaskRepository } from "./task.repository.js";
 
 const taskRepository = new TaskRepository();
 
