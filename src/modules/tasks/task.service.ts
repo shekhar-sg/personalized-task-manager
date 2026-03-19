@@ -1,7 +1,7 @@
-import { type Prisma, Status } from "../../../generated/prisma/client.js";
-import { NotFoundError } from "../../shared/lib/appError.js";
-import type { CreateTaskDto, TaskQueryDto, UpdateTaskDto } from "./task.dto.js";
-import { TaskRepository } from "./task.repository.js";
+import {type Prisma, Status} from "../../../generated/prisma/client.js";
+import {NotFoundError} from "../../shared/lib/appError.js";
+import type {CreateTaskDto, TaskQueryDto, UpdateTaskDto} from "./task.dto.js";
+import {TaskRepository} from "./task.repository.js";
 
 const taskRepository = new TaskRepository();
 
@@ -111,6 +111,20 @@ export class TaskService {
     }
 
     await taskRepository.update({ id }, { isDeleted: true, deletedAt: new Date() });
+  }
+
+  async toggleTask(id: string, userId: string) {
+    const task = await taskRepository.findOne({
+      id,
+      userId,
+      isDeleted: false,
+    });
+
+    if (!task) {
+      throw new NotFoundError("Task not found");
+    }
+    const newStatus = task.status === Status.COMPLETED ? Status.PENDING : Status.COMPLETED;
+    return taskRepository.update({ id }, { status: newStatus });
   }
 
   async getTaskStats(userId: string) {

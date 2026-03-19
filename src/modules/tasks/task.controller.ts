@@ -1,10 +1,10 @@
-import type { NextFunction, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { z } from "zod";
-import { ApiResponse } from "../../shared/lib/response.js";
-import type { AuthRequest } from "../../shared/types/index.js";
-import { createTaskSchema, taskQuerySchema, updateTaskSchema } from "./task.dto.js";
-import { TaskService } from "./task.service.js";
+import type {NextFunction, Response} from "express";
+import {StatusCodes} from "http-status-codes";
+import {z} from "zod";
+import {ApiResponse} from "../../shared/lib/response.js";
+import type {AuthRequest} from "../../shared/types/index.js";
+import {createTaskSchema, taskQuerySchema, updateTaskSchema} from "./task.dto.js";
+import {TaskService} from "./task.service.js";
 
 const taskService = new TaskService();
 
@@ -94,6 +94,24 @@ export class TaskController {
 
       await taskService.deleteTask(taskId, req.user!.userId);
       return ApiResponse.success(res, "Task deleted successfully");
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async toggleTask(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const taskId = extractTaskId(req.params.id);
+      if (!taskId) {
+        return ApiResponse.error(res, "Invalid task ID", StatusCodes.NOT_FOUND);
+      }
+      const task = await taskService.toggleTask(taskId, req.user!.userId);
+
+      return ApiResponse.success(
+        res,
+        `Task marked as ${task.status.toLowerCase().replace("_", " ")}`,
+        { task }
+      );
     } catch (error) {
       next(error);
     }
