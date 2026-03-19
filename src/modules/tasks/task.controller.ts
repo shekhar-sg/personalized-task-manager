@@ -120,7 +120,7 @@ export class TaskController {
   async getTaskStats(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const stats = await taskService.getTaskStats(req.user!.userId);
-      return ApiResponse.success(res, "Task statistics retrieved successfully", stats);
+      return ApiResponse.success(res, "Task statistics retrieved successfully", { stats });
     } catch (error) {
       next(error);
     }
