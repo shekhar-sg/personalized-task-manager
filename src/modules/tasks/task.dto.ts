@@ -22,7 +22,7 @@ export const createTaskSchema = z.object({
 
   status: z
     .enum(Status, {
-      error: "Status must be PENDING, IN_PROGRESS, COMPLETED or OVERDUE",
+      error: "Status must be PENDING, IN_PROGRESS, COMPLETED",
     })
     .default(Status.PENDING),
 
@@ -51,7 +51,7 @@ export const updateTaskSchema = z.object({
 
   status: z
     .enum(Status, {
-      error: "Status must be PENDING, IN_PROGRESS, COMPLETED or OVERDUE",
+      error: "Status must be PENDING, IN_PROGRESS, COMPLETED",
     })
     .optional(),
 
