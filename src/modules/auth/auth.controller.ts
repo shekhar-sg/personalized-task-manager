@@ -68,7 +68,7 @@ export class AuthController {
 
       const data = await authService.refresh(refreshToken);
 
-      ApiResponse.setAccessTokenCookie(res, data.refreshToken);
+      ApiResponse.setAccessTokenCookie(res, data.accessToken);
       ApiResponse.setRefreshTokenCookie(res, data.refreshToken);
 
       return ApiResponse.success(res, "Token refreshed successfully", {
