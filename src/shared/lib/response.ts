@@ -1,6 +1,8 @@
 import type {Response} from "express";
 import {StatusCodes} from "http-status-codes";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export class ApiResponse {
   static success(
     res: Response,
@@ -70,8 +72,8 @@ export class ApiResponse {
   static setAccessTokenCookie(res: Response, token: string) {
     res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      secure: isProduction,
+      sameSite: isProduction ? "strict" : "lax",
       maxAge: 15 * 60 * 1000,
     });
   }
@@ -79,16 +81,16 @@ export class ApiResponse {
   static clearAccessTokenCookie(res: Response) {
     res.clearCookie("accessToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      secure: isProduction,
+      sameSite: isProduction ? "strict" : "lax",
     });
   }
 
   static setRefreshTokenCookie(res: Response, token: string) {
     res.cookie("refreshToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      secure: isProduction,
+      sameSite: isProduction ? "strict" : "lax",
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
   }
@@ -96,8 +98,8 @@ export class ApiResponse {
   static clearRefreshTokenCookie(res: Response) {
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      secure: isProduction,
+      sameSite: isProduction ? "strict" : "lax",
     });
   }
 }
